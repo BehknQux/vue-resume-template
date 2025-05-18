@@ -13,6 +13,12 @@
                     "description": null,
                     "nav_label": "About"
                 },
+                "tr": {
+                    "title": "test",
+                    "title_short": "test!",
+                    "description": null,
+                    "nav_label": "About"
+                },
                 "es": {
                     "title": "¡Bienvenido a *mi CV!*",
                     "title_short": "Bienvenido!",

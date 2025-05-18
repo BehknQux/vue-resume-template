@@ -20,12 +20,12 @@ $danger: #d91c1c;
 $light: #fcfcfc;
 
 /** Layout Colors **/
-$default-section-background: #f1eff3;
+$default-section-background: #000000;
 $loader-background: #261841;
-$text-default-color: #140f29;
+$text-default-color: #ffffff;
 
 /** Nav Colors **/
-$nav-background: #140f29;
+$nav-background: #3d3710;
 $nav-background-selected: lighten($nav-background, 5%);
 $nav-avatar-border-color: lighten($nav-background, 10%);
 $nav-highlight: lighten($primary, 30%);

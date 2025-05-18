@@ -9,7 +9,6 @@
             "flagUrl": "images/flags/en-us.png",
             "default": true
         },
-
         {
             "name": "Español",
             "id": "es",

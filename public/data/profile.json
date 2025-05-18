@@ -1,11 +1,11 @@
 {
-    "name": "Roy Sheppard",
+    "name": "A. Hamza Tok",
     "profilePictureUrl": "images/pictures/avatar.png",
 
     "locales": {
         "en": {
             "credits": "Designed by <strong><a href='https://github.com/ryanbalieiro'>Ryan Balieiro</a></strong>",
-            "role": "UX Designer"
+            "role": "FrontEnd Developer"
         },
 
         "es": {
