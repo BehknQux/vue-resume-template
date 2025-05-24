@@ -1,4 +1,5 @@
 <template>
+    <div>
     <div class="navigation-wrapper">
         <!-- Controls -->
         <NavControlOneAtOnce v-if="presentationMode === constants.PresentationModes.ONE_AT_ONCE" ref="navControlOneAtOnce"/>
@@ -42,6 +43,7 @@
                                 @select="_onTabControllerLinkClicked"/>
         </div>
     </div>
+</div>
 </template>
 
 <script setup>

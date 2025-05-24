@@ -13,19 +13,19 @@ $z-index-tab-controller: 95;
 $z-index-loader: 99999;
 
 /** Bootstrap Colors **/
-$primary: #7e45dc;
-$dark: #212529;
-$success: #06c203;
-$danger: #d91c1c;
-$light: #fcfcfc;
+$primary: #00a4ef;
+$dark: #282828;
+$success: #6ab43e;
+$danger: #fd4084;
+$light: #f0f0f0;
 
 /** Layout Colors **/
-$default-section-background: #000000;
-$loader-background: #261841;
-$text-default-color: #ffffff;
+$default-section-background: #202020;
+$loader-background: #252525;
+$text-default-color: $light;
 
 /** Nav Colors **/
-$nav-background: #3d3710;
+$nav-background: #2a2a2a;
 $nav-background-selected: lighten($nav-background, 5%);
 $nav-avatar-border-color: lighten($nav-background, 10%);
 $nav-highlight: lighten($primary, 30%);
@@ -41,6 +41,11 @@ $nav-contrast-40: rgba($nav-contrast, 0.4);
 $nav-contrast-30: rgba($nav-contrast, 0.3);
 $nav-contrast-20: rgba($nav-contrast, 0.2);
 $nav-contrast-10: rgba($nav-contrast, 0.1);
+
+/** Vibrant Palette Colors (User's Choice) **/
+$vibrant-purple: #735cb0;
+$vibrant-orange: #e89d41;
+// Note: Blue, Green, Pink are already assigned to primary, success, danger.
 
 /** Light Shades **/
 $light-1: #f8f9fa;

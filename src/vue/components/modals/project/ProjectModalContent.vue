@@ -1,44 +1,63 @@
 <template>
     <div class="project-modal-content">
-        <!-- Title -->
-        <h1 class="mb-2 fw-bold"
-            v-html="localize(item.locales, 'title')"/>
+        <template v-if="!isCreating">
+            <!-- Title -->
+            <h1 class="mb-2 fw-bold"
+                v-html="localize(item.locales, 'title')"/>
 
-        <!-- Tags -->
-        <div v-if="parsedTags && parsedTags.length"
-             class="tags-wrapper text-3 mt-2 mt-lg-3">
-            <span class="d-none d-lg-inline">
-                <i class="fa-solid fa-tag opacity-75"/>
-                {{localizeFromStrings("tags")}}:
-            </span>
+            <!-- Tags -->
+            <div v-if="parsedTags && parsedTags.length"
+                 class="tags-wrapper text-3 mt-2 mt-lg-3">
+                <span class="d-none d-lg-inline">
+                    <i class="fa-solid fa-tag opacity-75"/>
+                    {{localizeFromStrings("tags")}}:
+                </span>
 
-            <Tags class="mt-1 mt-lg-0" :tags="parsedTags"/>
-        </div>
-
-        <!-- Blocks -->
-        <template v-for="block in blocks">
-            <div v-if="block.visibility" class="project-modal-content-block">
-                <h5 :class="block.titleClass">
-                    <i :class="`${block.titleFaIcon}`"/>
-                    <span v-html="block.title"/>
-                </h5>
-
-                <p class="text-3 mb-0" v-html="block.description"/>
-
-                <SocialLinks v-if="block.links"
-                             :items="block.links"
-                             class="social-links"
-                             size="2"
-                             variant="dark"/>
+                <Tags class="mt-1 mt-lg-0" :tags="parsedTags"/>
             </div>
+
+            <!-- Blocks -->
+            <template v-for="block in blocks">
+                <div v-if="block.visibility" class="project-modal-content-block">
+                    <h5 :class="block.titleClass">
+                        <i :class="`${block.titleFaIcon}`"/>
+                        <span v-html="block.title"/>
+                    </h5>
+
+                    <p class="text-3 mb-0" v-html="block.description"/>
+
+                    <SocialLinks v-if="block.links"
+                                 :items="block.links"
+                                 class="social-links"
+                                 size="2"
+                                 variant="dark"/>
+                </div>
+            </template>
+
+            <!-- Create Button -->
+            <div class="create-button-wrapper mt-4">
+                <button class="btn btn-primary w-100" @click="startCreating">
+                    <i class="fa-solid fa-plus me-2"></i>
+                    {{ localizeFromStrings("create") }}
+                </button>
+            </div>
+        </template>
+
+        <template v-else>
+            <CardCreator 
+                :formFields="formFields"
+                @submit="handleCardSubmit"
+                @cancel="cancelCreating"
+            />
         </template>
     </div>
 </template>
 
 <script setup>
-import {computed, inject} from "vue"
+import {computed, inject, ref} from "vue"
 import Tags from "/src/vue/components/widgets/Tags.vue"
 import SocialLinks from "/src/vue/components/widgets/SocialLinks.vue"
+import CardCreator from "/src/vue/components/tools/CardCreator.vue"
 
 const props = defineProps({
     /** @type {ArticleItem} **/
@@ -74,22 +93,41 @@ const blocks = computed(() => {
             description: description,
             links: null
         },
-
-        {
-            visibility: links?.length,
-            titleClass: "",
-            title: localizeFromStrings("where_to_find"),
-            titleFaIcon: "fa-solid fa-globe",
-            description: localizeFromStrings("where_to_find_description")
-                .replace("{project}", `<b>${localize(props.item.locales, "title")}</b>`),
-            links: links.map((link) => {return {
-                href: link.href,
-                faIcon: link.faIcon,
-                id: link.stringKey
-            }})
-        }
+        // {
+        //     visibility: links?.length,
+        //     titleClass: "",
+        //     title: localizeFromStrings("where_to_find"),
+        //     titleFaIcon: "fa-solid fa-globe",
+        //     description: localizeFromStrings("where_to_find_description")
+        //         .replace("{project}", `<b>${localize(props.item.locales, "title")}</b>`),
+        //     links: links.map((link) => {return {
+        //         href: link.href,
+        //         faIcon: link.faIcon,
+        //         id: link.stringKey
+        //     }})
+        // }
     ]
 })
+
+const isCreating = ref(false)
+
+const formFields = computed(() => {
+    return localize(props.item.locales, "form") || []
+})
+
+const startCreating = () => {
+    isCreating.value = true
+}
+
+const cancelCreating = () => {
+    isCreating.value = false
+}
+
+const handleCardSubmit = (formData) => {
+    console.log('Card form submitted:', formData)
+    // Handle the form submission here
+    isCreating.value = false
+}
 </script>
 
 <style lang="scss" scoped>
@@ -149,6 +187,15 @@ div.project-modal-content-block {
 
     @include media-breakpoint-down($navigation-sidebar-breakpoint) {
         margin-top: 25px;
+    }
+}
+
+div.create-button-wrapper {
+    display: flex;
+    justify-content: center;
+    
+    button {
+        min-width: 150px;
     }
 }
 </style>
