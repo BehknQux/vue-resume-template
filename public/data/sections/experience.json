@@ -1,42 +1,53 @@
 {
-    "articles": [
+  "articles": [
+    {
+      "id": 1,
+      "component": "ArticleTimeline",
+      "locales": {},
+      "settings": {
+        "order_items_by": "id",
+        "order_items_sort": "desc"
+      },
+      "items": [
         {
-            "id": 1,
-            "component": "ArticleTimeline",
-            "locales": {},
-            "settings": {
-                "order_items_by": "id",
-                "order_items_sort": "desc"
+          "id": 1,
+          "dateStart": {
+            "year": 2023,
+            "month": 10
+          },
+          "dateEnd": {
+            "string": "now"
+          },
+          "img": "images/places/medek-logo.png",
+          "fallbackFaIconColor": "#222222",
+          "locales": {
+            "en": {
+              "title": "Frontend Developer & UI/UX Designer",
+              "description": "Developing and maintaining high-performance, responsive web applications using Vue.js and modern frontend technologies. Creating intuitive and user-friendly interfaces through comprehensive UI/UX design. Implementing pixel-perfect designs while ensuring cross-browser compatibility. Writing clean, maintainable code while following best practices and design patterns. Participating in code reviews and contributing to the improvement of development processes.",
+              "province": "Sakarya",
+              "country": "TR",
+              "institution": "Medek",
+              "tags": [
+                "Vue.js",
+                "UI/UX Design",
+                "CSS3"
+              ]
             },
-            "items": [
-                {
-                    "id": 1,
-                    "dateStart": {"year": 2023, "month": 10},
-                    "dateEnd": {"string": "now"},
-                    "img": null,
-                    "fallbackFaIcon": "fa-brands fa-steam",
-                    "fallbackFaIconColor": "#222222",
-
-                    "locales": {
-                        "en": {
-                            "title": "Frontend Developer & UI/UX Designer",
-                            "description": "Developing and maintaining high-performance, responsive web applications using Vue.js and modern frontend technologies. Creating intuitive and user-friendly interfaces through comprehensive UI/UX design. Implementing pixel-perfect designs while ensuring cross-browser compatibility. Writing clean, maintainable code while following best practices and design patterns. Participating in code reviews and contributing to the improvement of development processes.",
-                            "province": "Sakarya",
-                            "country": "TR",
-                            "institution": "Medek",
-                            "tags": ["Vue.js", "UI/UX Design", "CSS3"]
-                        },
-                        "tr": {
-                            "title": "Frontend Developer & UI/UX Tasarımcısı",
-                            "description": "Vue.js ve modern frontend teknolojileri kullanarak yüksek performanslı, duyarlı web uygulamaları geliştirme ve sürdürme. Kapsamlı UI/UX tasarımı ile sezgisel ve kullanıcı dostu arayüzler oluşturma. Piksel mükemmel tasarımları uygularken tarayıcılar arası uyumluluğu sağlama. En iyi uygulamaları ve tasarım desenlerini takip ederek temiz, sürdürülebilir kod yazma. Kod incelemelerine katılma ve geliştirme süreçlerinin iyileştirilmesine katkıda bulunma.",
-                            "province": "Sakarya",
-                            "country": "TR",
-                            "institution": "Medek",
-                            "tags": ["Vue.js", "UI/UX Tasarım", "CSS3"]
-                        }
-                    }
-                }
-            ]
+            "tr": {
+              "title": "Frontend Developer & UI/UX Tasarımcısı",
+              "description": "Vue.js ve modern frontend teknolojileri kullanarak yüksek performanslı, duyarlı web uygulamaları geliştirme ve sürdürme. Kapsamlı UI/UX tasarımı ile sezgisel ve kullanıcı dostu arayüzler oluşturma. Piksel mükemmel tasarımları uygularken tarayıcılar arası uyumluluğu sağlama. En iyi uygulamaları ve tasarım desenlerini takip ederek temiz, sürdürülebilir kod yazma. Kod incelemelerine katılma ve geliştirme süreçlerinin iyileştirilmesine katkıda bulunma.",
+              "province": "Sakarya",
+              "country": "TR",
+              "institution": "Medek",
+              "tags": [
+                "Vue.js",
+                "UI/UX Tasarım",
+                "CSS3"
+              ]
+            }
+          }
         }
-    ]
+      ]
+    }
+  ]
 }

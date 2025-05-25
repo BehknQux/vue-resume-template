@@ -1,12 +1,12 @@
 <template>
-    <div v-if="didLoadAllJsonFiles" id="resume">
-        <NavigationWrapper>
-            <Section v-for="section in sections"
-                     :presentation-mode="String(presentationMode)"
-                     :model="section"
-                     :active="_isSectionActive(section)"/>
-        </NavigationWrapper>
-    </div>
+  <div v-if="didLoadAllJsonFiles" id="resume">
+    <NavigationWrapper>
+      <Section v-for="section in sections"
+               :presentation-mode="String(presentationMode)"
+               :model="section"
+               :active="_isSectionActive(section)"/>
+    </NavigationWrapper>
+  </div>
 </template>
 
 <script setup>
@@ -27,9 +27,9 @@ const sections = inject("sections")
 const currentSection = inject("currentSection")
 
 const _isSectionActive = (section) => {
-    if(!currentSection.value)
-        return false
-    return currentSection.value.id === section.id
+  if (!currentSection.value)
+    return false
+  return currentSection.value.id === section.id
 }
 </script>
 
@@ -37,11 +37,10 @@ const _isSectionActive = (section) => {
 @import "/src/scss/_theming.scss";
 
 #resume {
-    display: flex;
-    min-height: 100vh;
-    background-color: $nav-background;
-    @include media-breakpoint-down($navigation-sidebar-breakpoint) {
-        background-color: $default-section-background;
-    }
+  min-height: 100vh;
+  background-color: $nav-background;
+  @include media-breakpoint-down($navigation-sidebar-breakpoint) {
+    background-color: $default-section-background;
+  }
 }
 </style>

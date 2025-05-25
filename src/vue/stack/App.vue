@@ -40,10 +40,12 @@ const checkRoute = () => {
     const path = window.location.pathname
     console.log(path)
     
-    // Özel route kontrolü
-    if (path === '/custom') {
-        // Burada gerekli kontrolleri yapabilirsiniz
-        // Örneğin: token kontrolü, API çağrısı vb.
+    // /sdc/{id} pattern kontrolü
+    const sdcPattern = /^\/sdc\/([^\/]+)$/
+    const match = path.match(sdcPattern)
+    
+    if (match) {
+        // ID'yi al ve CustomView'a gönder
         isCustomRoute.value = true
     } else {
         isCustomRoute.value = false

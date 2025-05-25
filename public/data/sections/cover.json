@@ -15,10 +15,10 @@
                     "id": 1,
                     "locales": {
                         "en": {
-                            "description": "For the past two years, alongside my Software Engineering studies, I have been working as a FrontEnd Web Developer. I design user-friendly interfaces that feel natural, intuitive, and seamless across different devices. My passion lies in creating digital experiences that not only look great but also function effortlessly, making interactions smoother and more enjoyable."
+                            "description": "Alongside my Software Engineering studies, I have been working as a FrontEnd Web Developer. I design user-friendly interfaces that feel natural, intuitive, and seamless across different devices. My passion lies in creating digital experiences that not only look great but also function effortlessly, making interactions smoother and more enjoyable."
                         },
                         "tr": {
-                            "description": "İki yıldır Yazılım Mühendisliği eğitimime devam ederken aynı zamanda FrontEnd Web Geliştiricisi olarak çalışıyorum. Farklı cihazlarda doğal, sezgisel ve akıcı kullanıcı deneyimleri sunan arayüzler tasarlıyorum. Tutkum, yalnızca estetik açıdan değil, aynı zamanda zahmetsizce çalışarak etkileşimleri daha sorunsuz ve keyifli kılan dijital deneyimler yaratmaktır."
+                            "description": "Yazılım Mühendisliği eğitimime devam ederken aynı zamanda FrontEnd Web Geliştiricisi olarak çalışıyorum. Farklı cihazlarda doğal, sezgisel ve akıcı kullanıcı deneyimleri sunan arayüzler tasarlıyorum. Tutkum, yalnızca estetik açıdan değil, aynı zamanda zahmetsizce çalışarak etkileşimleri daha sorunsuz ve keyifli kılan dijital deneyimler yaratmaktır."
                         }
                     }
                 },
@@ -27,7 +27,7 @@
                     "id": 2,
                     "locales": {
                         "en": {
-                            "description": "I believe that good design should enhance people's lives, helping them navigate technology with ease and confidence. Let’s work together to bring ideas to life and build something truly amazing!"
+                            "description": "I believe that good design should enhance people's lives, helping them navigate technology with ease and confidence. Let's work together to bring ideas to life and build something truly amazing!"
                         },
                         "tr": {
                             "description": "İyi tasarımın, insanların teknolojiyi kolaylıkla ve güvenle kullanmalarına yardımcı olarak hayatlarını iyileştirmesi gerektiğine inanıyorum. Fikirleri hayata geçirmek ve gerçekten harika bir şeyler inşa etmek için birlikte çalışalım!"

@@ -1,59 +1,131 @@
 <template>
     <div class="custom-view">
-        <div class="birthday-container">
-            <h1 class="happy-birthday-title">
-                <span class="wave-text">
-                    <span v-for="(char, i) in happyArr" :key="'h'+i" :style="{ '--i': i }" class="wave-char">{{ char }}</span>
-                </span>
-                <span class="wave-space"> </span>
-                <span class="wave-text">
-                    <span v-for="(char, i) in birthdayArr" :key="'b'+i" :style="{ '--i': i + happyArr.length }" class="wave-char">{{ char }}</span>
-                </span>
-                <span class="birthday-name wave-text">
-                    <span v-for="(char, i) in nameTextArr" :key="'n'+i" :style="{ '--i': i + happyArr.length + birthdayArr.length }" class="wave-char">{{ char }}</span>
-                </span>
-            </h1>
-            <div class="surprise-message">
-                <span class="sender-name">Ahmet</span> tarafından sana bir sürpriz var,
-            </div>
-            <div class="birthday-message">
-                <p>Bugün senin günün! Nice mutlu, sağlıklı, neşeli yaşlara! 🎈</p>
-            </div>
-            <div class="cake-container">
-                <div class="cake" @mouseover="cakeHover = true" @mouseleave="cakeHover = false" @click="blowCandle = true" :class="{ 'cake-hover': cakeHover }">
-                    <div class="plate"></div>
-                    <div class="layer layer-bottom"></div>
-                    <div class="layer layer-middle"></div>
-                    <div class="layer layer-top"></div>
-                    <div class="icing"></div>
-                    <div class="drip drip1"></div>
-                    <div class="drip drip2"></div>
-                    <div class="drip drip3"></div>
-                    <div class="candle" :style="getCandleStyle(1, 1)">
-                        <div v-if="!blowCandle" class="flame"></div>
+        <div v-if="!showError" class="birthday-container" :class="{ 'content-ready': showContent }">
+            <transition name="pop-in">
+                <h1 v-if="showTitle" class="happy-birthday-title">
+                    <span class="wave-text">
+                        <span v-for="(char, i) in happyArr" :key="'h'+i" :style="{ '--i': i, animationDelay: (i * 0.15) + 's' }" class="wave-char rainbow-char">{{ char }}</span>
+                    </span>
+                    <span class="wave-space"> </span>
+                    <span class="wave-text">
+                        <span v-for="(char, i) in birthdayArr" :key="'b'+i" :style="{ '--i': i + happyArr.length, animationDelay: ((i + happyArr.length) * 0.15) + 's' }" class="wave-char rainbow-char">{{ char }}</span>
+                    </span>
+                    <span class="birthday-name wave-text">
+                        <span v-for="(char, i) in nameTextArr" :key="'n'+i" :style="{ '--i': i + happyArr.length + birthdayArr.length }" class="wave-char">{{ char }}</span>
+                    </span>
+                </h1>
+            </transition>
+            <transition name="pop-in">
+                <div v-if="showSurprise" class="surprise-message">
+                    <span class="sender-name">{{ senderName }}</span> tarafından sana bir sürpriz var,
+                </div>
+            </transition>
+            <transition name="pop-in">
+                <div v-if="showCake" class="cake-container">
+                    <div class="cake" @mouseover="cakeHover = true" @mouseleave="cakeHover = false" @click="blowCandle = true" :class="{ 'cake-hover': cakeHover }">
+                        <div class="plate"></div>
+                        <div class="layer layer-bottom"></div>
+                        <div class="layer layer-middle"></div>
+                        <div class="layer layer-top"></div>
+                        <div class="icing"></div>
+                        <div class="drip drip1"></div>
+                        <div class="drip drip2"></div>
+                        <div class="drip drip3"></div>
+                        <div class="candle" :style="getCandleStyle(1, 1)">
+                            <div v-if="!blowCandle" class="flame"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </transition>
+            <transition name="pop-in">
+                <div v-if="showBirthdayMsg" class="birthday-message">
+                    <p>{{ birthdayMessage }}</p>
+                </div>
+            </transition>
+            <transition name="pop-in">
+                <div v-if="showWishHint && !blowCandle" class="congrats-message">
+                    Bir dilek tut ve pastaya dokun!
+                </div>
+            </transition>
+            <transition name="congrats-fade" @after-enter="onCongratsAfterEnter">
+                <div v-if="blowCandle" class="congrats-message">
+                    Tebrikler!
+                </div>
+            </transition>
             <div class="fireworks-container" ref="fireworksContainer"></div>
         </div>
-        <footer class="footer">
-            made by <a href="https://github.com/BehknQux" target="_blank" rel="noopener">BehknQux</a>
-        </footer>
+        
+        <div v-else class="error-container">
+            <img src="/sad.gif" alt="Üzgün surat" class="sad-gif big-sad-gif" />
+            <h2 class="error-title">Ooops! Görünüşe bakılırsa burada kimsenin doğum günü yok! olsun</h2>
+        </div>
+        <div v-if="isLoading" class="loading-overlay">
+            <div class="curtains" :class="{ 'curtains-open': showCurtains }">
+                <div class="curtain curtain-left"></div>
+                <div class="curtain curtain-right"></div>
+            </div>
+            <div class="loading-content" :class="{ 'fade-out': hideLoadingText }">
+                <h2 class="loading-text">Neredeyse Hazır!</h2>
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        <transition name="pop-in">
+            <footer class="footer" v-if="showFooter && blowCandle">
+                made by <a :href="baseUrl" target="_blank" rel="noopener">BehknQux</a>
+            </footer>
+        </transition>
     </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import Fireworks from 'fireworks-js';
 
 const fireworksContainer = ref(null);
 const cakeHover = ref(false);
 const blowCandle = ref(false);
+const isLoading = ref(true);
+const hideLoadingText = ref(false);
+const showCurtains = ref(false);
+const showContent = ref(false);
+const showTitle = ref(false);
+const showCake = ref(false);
+const showSurprise = ref(false);
+const showBirthdayMsg = ref(false);
+const showWishHint = ref(false);
+const showFooter = ref(false);
+const showError = ref(false);
+
+// API'den gelecek veriler için state'ler
+const senderName = ref('');
+const birthdayMessage = ref('');
+const nameText = ref('');
+const errorMessage = ref('');
 
 const happyArr = 'HAPPY'.split('');
 const birthdayArr = 'BIRTHDAY'.split('');
-const nameText = 'Hamza';
-const nameTextArr = nameText.split('');
+const nameTextArr = computed(() => nameText.value.split(''));
+
+const rainbowColors = [
+  '#FF5252', // red
+  '#FFB300', // orange
+  '#FFD600', // yellow
+  '#69F0AE', // green
+  '#40C4FF', // blue
+  '#7C4DFF', // purple
+  '#FF4081', // pink
+  '#8D6E63', // brown
+  '#00B8D4', // cyan
+  '#C6FF00', // lime
+  '#FF6D00', // deep orange
+  '#00E676', // light green
+  '#2979FF', // deep blue
+  '#D500F9', // magenta
+];
 
 const getCandleStyle = (index, totalCandles) => {
     // Tek mum için ortada
@@ -64,7 +136,110 @@ const getCandleStyle = (index, totalCandles) => {
     };
 };
 
+// URL'den ID'yi al
+const getCardId = () => {
+    const path = window.location.pathname;
+    const match = path.match(/^\/sdc\/([^\/]+)$/);
+    return match ? match[1] : null;
+};
+
+// API çağrısı
+const fetchBirthdayData = async () => {
+    try {
+        const cardId = getCardId();
+        if (!cardId) {
+            throw new Error('Card ID not found in URL');
+        }
+
+        const response = await fetch(`https://ne41k5dtad.execute-api.eu-north-1.amazonaws.com/cards/${cardId}?type=birthday`);
+        if (!response.ok) {
+            throw new Error('Card not found');
+        }
+        const data = await response.json();
+        
+        return {
+            senderName: data.sender,
+            birthdayMessage: data.message,
+            nameText: data.recipient
+        };
+    } catch (error) {
+        console.error('API çağrısı sırasında hata oluştu:', error);
+        if (error.message === 'Card not found') {
+            errorMessage.value = 'Bu doğum günü kartı bulunamadı... 😢';
+        } else {
+            errorMessage.value = 'Bugün kimsenin doğum günü değil gibi görünüyor... 😢';
+        }
+        showError.value = true;
+        isLoading.value = false;
+        return null;
+    }
+};
+
+function onCongratsAfterEnter() {
+    setTimeout(() => {
+        showFooter.value = true;
+    }, 3000);
+}
+
+const handleContentVisible = () => {
+    // Sıralı animasyonlar
+    setTimeout(() => {
+        showTitle.value = true;
+        setTimeout(() => {
+            showSurprise.value = true;
+            setTimeout(() => {
+                showCake.value = true;
+                setTimeout(() => {
+                    showBirthdayMsg.value = true;
+                    setTimeout(() => {
+                        showWishHint.value = true;
+                    }, 3000);
+                }, 3000);
+            }, 3000);
+        }, 3000);
+    }, 100); // içerik geldikten hemen sonra başlat
+};
+
+const startLoadingSequence = async () => {
+    try {
+        const data = await fetchBirthdayData();
+        if (!data) return; // Eğer fetchBirthdayData null dönerse (hata durumu) işlemi sonlandır
+
+        senderName.value = data.senderName;
+        birthdayMessage.value = data.birthdayMessage;
+        nameText.value = data.nameText;
+
+        // 1. Loading yazısını kaybet
+        hideLoadingText.value = true;
+        
+        // 2. Perdeleri aç
+        setTimeout(() => {
+            showCurtains.value = true;
+        }, 1000);
+
+        // 3. İçeriği göster
+        setTimeout(() => {
+            showContent.value = true;
+            isLoading.value = false;
+            handleContentVisible(); // içerik görününce zamanlayıcı başlat
+        }, 2000);
+
+    } catch (error) {
+        console.error('Veri yüklenirken hata oluştu:', error);
+        errorMessage.value = 'Bir şeyler ters gitti... 😢';
+        showError.value = true;
+        isLoading.value = false;
+    }
+};
+
+const baseUrl = computed(() => {
+    const url = window.location.origin;
+    return url;
+});
+
 onMounted(() => {
+    startLoadingSequence();
+    
     if (fireworksContainer.value) {
         const width = window.innerWidth;
         const height = window.innerHeight;
@@ -96,6 +271,14 @@ onMounted(() => {
         fireworks.start();
     }
 });
+
+watch(() => blowCandle.value, (newVal) => {
+    if (newVal) {
+        setTimeout(() => {
+            showFooter.value = true;
+        }, 3000);
+    }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -116,16 +299,20 @@ onMounted(() => {
 .birthday-container {
     text-align: center;
     z-index: 1;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    
+    &.content-ready {
+        opacity: 1;
+    }
 }
 
 .happy-birthday-title {
     font-size: 3.5rem;
     margin-bottom: 1.5rem;
     color: #d84315;
-    text-shadow: 0 0 20px #fff3e0, 0 0 40px #fff3e0, 0 0 60px #fff;
     font-family: 'Pacifico', cursive, sans-serif;
     letter-spacing: 2px;
-    animation: glow 2s ease-in-out infinite alternate;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -145,9 +332,39 @@ onMounted(() => {
     animation-delay: calc(var(--i) * 0.08s);
 }
 
+.rainbow-char {
+    animation: rainbow-hue 2.5s steps(1) infinite;
+}
+
+@keyframes rainbow-hue {
+    0% {
+        color: #FF5252;
+    }
+    14% {
+        color: #FFB300;
+    }
+    28% {
+        color: #FFD600;
+    }
+    42% {
+        color: #69F0AE;
+    }
+    56% {
+        color: #40C4FF;
+    }
+    70% {
+        color: #7C4DFF;
+    }
+    84% {
+        color: #FF4081;
+    }
+    100% {
+        color: #FF5252;
+    }
+}
+
 .birthday-name .wave-char {
     color: #ff4da6;
-    text-shadow: 0 0 10px #fff, 0 0 20px #ff4da6;
 }
 
 @keyframes wave {
@@ -446,5 +663,305 @@ $chocolate: #553c13;
 .wave-space {
     display: inline-block;
     min-width: 0.15em;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.curtains {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    
+    .curtain {
+        transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    &.curtains-open {
+        .curtain-left {
+            transform: scaleX(0);
+        }
+        .curtain-right {
+            transform: scaleX(0);
+        }
+    }
+}
+
+.curtain {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(45deg, #d84315, #ff4da6);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.curtain-left {
+    left: 0;
+    transform-origin: left;
+}
+
+.curtain-right {
+    right: 0;
+    transform-origin: right;
+}
+
+.loading-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    color: white;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: opacity 0.5s ease-in-out;
+    
+    &.fade-out {
+        opacity: 0;
+    }
+}
+
+.loading-text {
+    font-size: 3rem;
+    font-family: 'Pacifico', cursive;
+    margin-bottom: 2rem;
+    animation: pulse 1.5s infinite;
+}
+
+.loading-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    
+    span {
+        width: 15px;
+        height: 15px;
+        background: white;
+        border-radius: 50%;
+        animation: bounce 0.5s infinite alternate;
+        
+        &:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        &:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-20px);
+    }
+}
+
+@media (max-width: 600px) {
+  .happy-birthday-title {
+    font-size: 3rem;
+  }
+  .surprise-message {
+    font-size: 1.1rem;
+  }
+  .birthday-message {
+    font-size: 1rem;
+  }
+}
+
+.congrats-message {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    color: #d84315;
+    font-family: 'Pacifico', cursive;
+    font-weight: bold;
+    text-shadow: 0 0 10px #fff, 0 0 20px #ff4da6;
+    animation: pop-in 0.7s cubic-bezier(0.4, 2, 0.6, 1);
+}
+
+@keyframes pop-in {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    80% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.pop-in-enter-active {
+    animation: pop-in 0.7s cubic-bezier(0.4, 2, 0.6, 1);
+}
+.pop-in-leave-active {
+    transition: opacity 0.7s;
+}
+.pop-in-enter-from, .pop-in-leave-to {
+    opacity: 0;
+    transform: scale(0.5);
+}
+.pop-in-enter-to, .pop-in-leave-from {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.congrats-fade-enter-active, .congrats-fade-leave-active {
+    transition: opacity 0.7s;
+}
+.congrats-fade-enter-from, .congrats-fade-leave-to {
+    opacity: 0;
+}
+.congrats-fade-enter-to, .congrats-fade-leave-from {
+    opacity: 1;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.7s;
+}
+.fade-enter-from, .fade-leave-to {
+    opacity: 0;
+}
+.fade-enter-to, .fade-leave-from {
+    opacity: 1;
+}
+
+.footer {
+    min-height: 2.2em;
+    transition: min-height 0.3s;
+}
+
+@keyframes pop-in-fast {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    80% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.pop-in-fast-enter-active {
+    animation: pop-in-fast 0.5s cubic-bezier(0.4, 2, 0.6, 1);
+}
+.pop-in-fast-leave-active {
+    transition: opacity 0.2s, transform 0.2s;
+}
+.pop-in-fast-enter-from, .pop-in-fast-leave-to {
+    opacity: 0;
+    transform: scale(0.5);
+}
+.pop-in-fast-enter-to, .pop-in-fast-leave-from {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.wish-hint {
+    text-align: center;
+    margin-top: 1.2rem;
+    font-size: 1.5rem;
+    color: #d84315;
+    font-family: 'Pacifico', cursive;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px #fff, 0 0 20px #ff4da6;
+    animation: pulse 1.5s infinite;
+    min-height: 1.7em;
+    transition: min-height 0.3s;
+}
+
+.error-container {
+    text-align: center;
+    padding: 2rem;
+    animation: fadeIn 0.5s ease-in;
+}
+
+.sad-gif {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 1rem;
+    display: inline-block;
+    animation: bounce 2s infinite;
+}
+
+.big-sad-gif {
+    width: 200px;
+    height: 200px;
+}
+
+.error-title {
+    font-size: 2.5rem;
+    color: #d84315;
+    font-family: 'Pacifico', cursive;
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    font-size: 1.5rem;
+    color: #2a2a2a;
+    margin-bottom: 1rem;
+}
+
+.error-submessage {
+    font-size: 1.2rem;
+    color: #666;
+    font-style: italic;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
 }
 </style> 

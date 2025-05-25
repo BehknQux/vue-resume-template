@@ -44,11 +44,52 @@
         </template>
 
         <template v-else>
-            <CardCreator 
-                :formFields="formFields"
-                @submit="handleCardSubmit"
-                @cancel="cancelCreating"
-            />
+            <template v-if="!generatedCardId">
+                <CardCreator 
+                    :formFields="formFields"
+                    :isLoading="isLoading"
+                    @submit="handleCardSubmit"
+                    @cancel="cancelCreating"
+                />
+
+                <div v-if="errorMessage" class="alert alert-danger mt-3">
+                    <i class="fa-solid fa-circle-exclamation me-2"></i>
+                    {{ errorMessage }}
+                </div>
+            </template>
+
+            <div v-else class="card-result">
+                <div class="text-center">
+                    <h3 class="mb-4">🎉 Harika! Doğum günü kartın hazır!</h3>
+                    
+                    <div class="link-container mb-4">
+                        <div class="d-flex align-items-center gap-2">
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                :value="`${siteDomain}/sdc/${generatedCardId}`"
+                                readonly
+                                ref="linkInput"
+                            />
+                            <button 
+                                class="btn btn-primary" 
+                                @click="copyLink"
+                            >
+                                <i class="fa-solid fa-copy"></i>
+                            </button>
+                        </div>
+                        <small v-if="isCopied" class="text-success mt-2 d-block">
+                            <i class="fa-solid fa-check me-1"></i>
+                            Link kopyalandı!
+                        </small>
+                    </div>
+
+                    <p class="text-muted">
+                        <i class="fa-solid fa-paper-plane me-2"></i>
+                        Şimdi bu linki kutlamak istediğin kişiye gönder ve sürprizi bozma! 🎁
+                    </p>
+                </div>
+            </div>
         </template>
     </div>
 </template>
@@ -115,18 +156,72 @@ const formFields = computed(() => {
     return localize(props.item.locales, "form") || []
 })
 
+const isLoading = ref(false)
+const generatedCardId = ref(null)
+const linkInput = ref(null)
+const siteDomain = window.location.origin
+const errorMessage = ref('')
+const isCopied = ref(false)
+
 const startCreating = () => {
     isCreating.value = true
 }
 
 const cancelCreating = () => {
     isCreating.value = false
+    generatedCardId.value = null
+    errorMessage.value = ''
 }
 
-const handleCardSubmit = (formData) => {
-    console.log('Card form submitted:', formData)
-    // Handle the form submission here
-    isCreating.value = false
+const copyLink = () => {
+    if (linkInput.value) {
+        linkInput.value.select()
+        document.execCommand('copy')
+        isCopied.value = true
+        setTimeout(() => {
+            isCopied.value = false
+        }, 2000)
+    }
+}
+
+const mapFormDataToPayload = (formData) => ({
+  type: 'birthday',
+  message: formData["Özel mesaj"] || formData["Special Message"] || "",
+  recipient: formData["Kutlanan kişinin adı"] || formData["Celebrated Person's Name"] || "",
+  sender: formData["Kutlayanın adı"] || formData["Celebrator's Name"] || ""
+});
+
+const handleCardSubmit = async (formData) => {
+    try {
+        isLoading.value = true
+        errorMessage.value = ''
+        const payload = mapFormDataToPayload(formData)
+        // Alanlar boşsa gönderme
+        if (!payload.message || !payload.recipient || !payload.sender) {
+            errorMessage.value = "Lütfen tüm alanları doldurun.";
+            isLoading.value = false;
+            return;
+        }
+        const response = await fetch('https://ne41k5dtad.execute-api.eu-north-1.amazonaws.com/cards', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+        })
+
+        const data = await response.json()
+        if (data.card_id) {
+            generatedCardId.value = data.card_id
+        } else {
+            throw new Error('Kart oluşturulamadı')
+        }
+    } catch (error) {
+        console.error('Error creating card:', error)
+        errorMessage.value = error.message || 'Bir hata oluştu. Lütfen tekrar deneyin.'
+    } finally {
+        isLoading.value = false
+    }
 }
 </script>
 
@@ -196,6 +291,13 @@ div.create-button-wrapper {
     
     button {
         min-width: 150px;
+    }
+}
+
+.card-result {
+    .link-container {
+        max-width: 600px;
+        margin: 0 auto;
     }
 }
 </style>

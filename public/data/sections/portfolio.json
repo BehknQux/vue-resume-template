@@ -29,13 +29,13 @@
           "locales": {
             "en": {
               "title": "Special Day Card Creator",
-              "description": "<b>Special Day Card Creator</b> lets you create personalized surprise cards for your loved ones! Design your special card with various templates and customization options, and the app generates a unique link for you. Simply share this link with your friends and family - when they open it, they'll see your beautifully crafted surprise card. Perfect for birthdays, anniversaries, or any special occasion where you want to create a memorable moment.",
+              "description": "<b>Special Day Card Creator</b> lets you create personalized surprise cards for your loved ones! The app generates a unique link for you. Simply share this link with your friends and family - when they open it, they'll see your beautifully crafted surprise card. Perfect for birthdays, anniversaries, or any special occasion where you want to create a memorable moment.",
               "tags": [
-                "uygulama",
-                "tasarım",
-                "kart",
-                "eğlence",
-                "sürpriz"
+                "application",
+                "design",
+                "card",
+                "entertainment",
+                "surprise"
               ],
               "form": [
                 {
@@ -68,7 +68,7 @@
             },
             "tr": {
               "title": "Özel gün kartı oluşturucu",
-              "description": "<b>Özel gün kartı oluşturucu</b> ile sevdikleriniz için kişiselleştirilmiş sürpriz kartlar oluşturabilirsiniz! Çeşitli şablonlar ve özelleştirme seçenekleriyle özel kartınızı tasarlayın, uygulama size benzersiz bir link oluşturacak. Bu linki arkadaşlarınız ve ailenizle paylaşın - açtıklarında, özenle hazırladığınız sürpriz kartı görecekler. Doğum günleri, yıldönümleri veya unutulmaz bir an yaratmak istediğiniz her özel gün için mükemmel bir çözüm.",
+              "description": "<b>Özel gün kartı oluşturucu</b> ile sevdikleriniz için kişiselleştirilmiş sürpriz kartlar oluşturabilirsiniz! Uygulama size benzersiz bir link oluşturacak. Bu linki arkadaşlarınız ve ailenizle paylaşın - açtıklarında, özenle hazırladığınız sürpriz kartı görecekler. Doğum günleri, yıldönümleri veya unutulmaz bir an yaratmak istediğiniz her özel gün için mükemmel bir çözüm.",
               "tags": [
                 "uygulama",
                 "tasarım",

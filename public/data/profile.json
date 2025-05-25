@@ -1,50 +1,44 @@
 {
-    "name": "A. Hamza Tok",
-    "profilePictureUrl": "images/pictures/avatar.png",
-
-    "locales": {
-        "en": {
-            "credits": "Designed by <strong><a href='https://github.com/ryanbalieiro'>Ryan Balieiro</a></strong>",
-            "role": "Software Engineer"
-        },
-
-        "tr": {
-            "credits": "Tasarım: <strong><a href='https://github.com/ryanbalieiro'>Ryan Balieiro</a></strong> <br> Yeniden Düzenleme: <strong><a href='https://github.com/BehknQux'>A. Hamza Tok</a></strong>",
-            "role": "Yazılım Mühendisi"
-        }
+  "name": "A. Hamza Tok",
+  "profilePictureUrl": "images/pictures/avatar.png",
+  "locales": {
+    "en": {
+      "credits": "Designed by <strong><a href='https://github.com/ryanbalieiro'>Ryan Balieiro</a></strong>",
+      "role": "Software Engineer"
     },
-
-    "contactOptions": [
-        {
-            "id": "email",
-            "value": "atesgolemi@gmail.com",
-            "valueShort": "atesgolemi@gmail.com",
-            "faIcon": "fa-regular fa-envelope",
-            "href": "mailto:atesgolemi@gmail.com"
-        },
-
-        {
-            "id": "github",
-            "value": "@BehknQux",
-            "valueShort": "@BehknQux",
-            "faIcon": "fa-brands fa-github",
-            "href": "https://github.com/BehknQux"
-        },
-
-        {
-            "id": "instagram",
-            "value": "@ahmethmztk",
-            "valueShort": "@ahmethmztk",
-            "faIcon": "fa-brands fa-instagram",
-            "href": "https://www.instagram.com/ahmethmztk/"
-        },
-
-        {
-            "id": "linkedin",
-            "value": "linkedn",
-            "valueShort": "linkedn",
-            "faIcon": "fa-brands fa-linkedin",
-            "href": "https://www.linkedin.com/in/ahmet-hamza-tok-0040852b4/"
-        }
-    ]
+    "tr": {
+      "credits": "Tasarım: <strong><a href='https://github.com/ryanbalieiro'>Ryan Balieiro</a></strong> <br> Yeniden Düzenleme: <strong><a href='https://github.com/BehknQux'>A. Hamza Tok</a></strong>",
+      "role": "Yazılım Mühendisi"
+    }
+  },
+  "contactOptions": [
+    {
+      "id": "email",
+      "value": "atesgolemi@gmail.com",
+      "valueShort": "atesgolemi@gmail.com",
+      "faIcon": "fa-regular fa-envelope",
+      "href": "mailto:atesgolemi@gmail.com"
+    },
+    {
+      "id": "github",
+      "value": "@BehknQux",
+      "valueShort": "@BehknQux",
+      "faIcon": "fa-brands fa-github",
+      "href": "https://github.com/BehknQux"
+    },
+    {
+      "id": "instagram",
+      "value": "@ahmethmztk",
+      "valueShort": "@ahmethmztk",
+      "faIcon": "fa-brands fa-instagram",
+      "href": "https://www.instagram.com/ahmethmztk/"
+    },
+    {
+      "id": "linkedin",
+      "value": "linkedin",
+      "valueShort": "linkedin",
+      "faIcon": "fa-brands fa-linkedin",
+      "href": "https://www.linkedin.com/in/ahmet-hamza-tok-0040852b4/"
+    }
+  ]
 }
