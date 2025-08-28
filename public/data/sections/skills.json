@@ -238,12 +238,12 @@
                     "locales": {
                         "en": {
                             "title": "English",
-                            "description": "Can understand but cannot speak fluently.",
+                            "description": "Medium",
                             "level": "Medium"
                         },
                         "tr": {
                             "title": "İngilizce",
-                            "description": "Anlayabilir ancak akıcı bir şekilde konuşamaz.",
+                            "description": "Orta Seviye",
                             "level": "Orta Seviye"
                         }
                     }
